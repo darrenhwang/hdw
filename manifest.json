@@ -1,0 +1,46 @@
+{
+	"manifest_version": 2,
+	"name": "tools",
+	"version": "0.0.1",
+	"description": "海岛王测试工具",
+	"author": "hhw",
+	"icons":
+	{
+		"48": "png/modo.png"
+	},
+	"devtools_page": "index.html",
+	"background": {
+	    "scripts": [
+	        "js/background.js"
+	    ]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": ["js/content-script.js"],
+			"run_at": "document_start"
+		}
+	],
+
+    "web_accessible_resources": [
+		"env.js",
+		"js/socket.js",
+        "js/tools.js"
+	],
+    "permissions": [
+        "contextMenus",
+        "notifications",
+        "webRequest",
+        "webRequestBlocking",
+        "system.cpu",
+        "tabs",
+        "storage",
+        "nativeMessaging",
+        "http://*/*",
+        "https://*/*"
+    ],
+
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

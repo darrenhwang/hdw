@@ -1,0 +1,279 @@
+.router-background {
+     opacity: 0.7;
+     background-image: url('../png/blackground.png');
+     background-size: 100% 100%;
+ }
+
+.hhw-fill {
+    height: 100%;
+    width: 100%;
+}
+
+.center-tabs .el-tabs__item {
+    font-size: 16px;
+    color: white;
+}
+
+.center-tabs .el-tabs__item:hover {
+    color: var(--el-color-primary);
+    cursor: pointer;
+}
+
+.center-tabs .el-tabs__item.is-active {
+    color: var(--el-color-primary);
+}
+
+.center-rank-font {
+    display: inline-block;
+    font-family: "楷体";
+    font-size: 18px;
+}
+
+.h-btn {
+    margin-left: 50px;
+    margin-top: 50px;
+    text-align: center;
+    display: inline-block;
+}
+
+.h-btn-hover {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 220px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: unset;
+    height: 80px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+
+    border-radius: 5px;
+    transition: all .4s ease-in-out;
+    filter: brightness(0.4);
+}
+
+.h-is-active {
+    filter: brightness(1);
+}
+
+.h-btn-hover:hover {
+    background-position: 100% 0;
+    transition: all .4s ease-in-out;
+    filter: brightness(1);
+}
+
+.h-btn-hover:focus {
+    outline: none;
+}
+
+.h-btn-hover.color-1 {
+    background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+}
+.h-btn-hover.color-2 {
+    background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
+    box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
+}
+.h-btn-hover.color-3 {
+    background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #8E37D7);
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+.h-btn-hover.color-4 {
+    background-image: linear-gradient(to right, #fc6076, #ff9a44, #ef9d43, #e75516);
+    box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+}
+.h-btn-hover.color-5 {
+    background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+    box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.h-btn-hover.color-6 {
+    background-image: linear-gradient(to right, #009245, #FCEE21, #00A8C5, #D9E021);
+    box-shadow: 0 4px 15px 0 rgba(83, 176, 57, 0.75);
+}
+.h-btn-hover.color-7 {
+    background-image: linear-gradient(to right, #6253e1, #852D91, #A3A1FF, #F24645);
+    box-shadow: 0 4px 15px 0 rgba(126, 52, 161, 0.75);
+}
+.h-btn-hover.color-8 {
+    background-image: linear-gradient(to right, #29323c, #485563, #2b5876, #4e4376);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+}
+.h-btn-hover.color-9 {
+    background-image: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+.h-btn-hover.color-10 {
+    background-image: linear-gradient(to right, #ed6ea0, #ec8c69, #f7186a , #FBB03B);
+    box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+}
+.h-btn-hover.color-11 {
+    background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);  box-shadow: 0 5px 15px rgba(242, 97, 103, .4);
+}
+.hhw_break {
+    width: 100%;
+    text-align: center;
+    margin-top: 10%;
+    font-size: 25px;
+}
+
+.center_header {
+    /*background-color: #545c64;*/
+    background: radial-gradient(at 50% -20%, #908392, #0d060e);
+    overflow: hidden;
+    box-shadow: 0px 0.5px 6px rgba(0, 0, 0, 0.4);
+}
+
+.center_header div {
+    color: aliceblue;
+    position: relative;
+    top: -5%;
+    /* margin-top: 10%; */
+    width: 100%;
+}
+
+.center_time {
+    display: inline-block;
+    font-family: "Share Tech Mono", monospace;
+}
+
+.center_time:hover {
+    cursor: pointer;
+    color: rgb(103, 217, 255);
+    text-decoration: underline;
+}
+
+.center_font {
+    display: inline-block;
+    font-family: "楷体";
+    margin-left:5%;
+    font-size: 18px;
+}
+
+.center_font:hover {
+    cursor: pointer;
+    color: rgb(103, 217, 255);
+    text-decoration: underline;
+}
+
+.center_font2 {
+    display: inline-block;
+    font-family: "楷体";
+    font-size: 20px;
+    color: aliceblue;
+}
+
+.center_font3 {
+    user-select: text;
+    display: inline-block;
+    font-family: "楷体";
+    font-size: 20px;
+    color: aliceblue;
+}
+
+
+.debug_header {
+    padding-top: 10px;
+    height: 40px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0px 0.5px 6px rgba(0, 0, 0, 0.4);
+}
+.debug_font {
+    font-family: "宋体";
+    font-weight: 300;
+    /* display: table-cell; */
+    display: inline-block;
+    /* line-height: 20px; */
+    font-size: 20px;
+    margin-left: 20px;
+    margin-top: -2px
+}
+.debug_font:hover {
+    cursor: pointer;
+    color: rgb(103, 217, 255);
+}
+.debug_tree_title {
+    margin-left: 15px;
+    font-size: 20px;
+    color: aliceblue;
+}
+.custom_tree .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+    background-color: rgb(128, 128,128);
+}
+
+.custom_tree .el-tree {
+    --el-tree-node-hover-bg-color: rgb(128, 128,128);
+}
+.custom_tree_node {
+    /*flex: 1;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: space-between;*/
+    font-size: 18px;
+    padding-right: 8px;
+    cursor: pointer;
+    color: aliceblue;
+}
+.custom_tree_node_child {
+    user-select: text;
+}
+.debug_tree_data {
+    display: inline-block;
+    position: fixed;
+    top: 0%;
+    left: 70%;
+    width: 30%;
+    height: 100%;
+    /* border-left: 1px solid #545c64; */
+    box-shadow:-5px 0px 5px rgba(0, 0, 0, 0.4);
+    overflow: auto;
+    background-color: white;
+    z-index: 100000;
+}
+.debug_tree_data .el-tree-node__content {
+    margin-top: 10px;
+}
+.custom_tree_data_node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    padding-right: 8px;
+    cursor: pointer;
+    user-select: text;
+}
+.handler_button {
+    margin: 10px 15px;
+}
+/*.edit_input .el-input__wrapper {*/
+/*    box-shadow: none;*/
+/*}*/
+/*.edit_input .el-input__wrapper .is-focus {*/
+/*    box-shadow: none;*/
+/*}*/
+/*.edit_input .el-input__wrapper:hover {*/
+/*    box-shadow: none;*/
+/*}*/
+/*.edit_input .is-disabled .el-input__wrapper {*/
+/*    box-shadow: none;*/
+/*}*/
+
+.hhwUrl{
+    display: inline-block;
+    margin-bottom:15px;
+    cursor: pointer;
+    text-decoration:underline;
+    color: rgb(67, 160, 223);
+    font-size: 18px;
+    width: 45%;
+    right: 5%;
+}
+
+.hhwUrl:hover{
+    color: orange;
+}
+
