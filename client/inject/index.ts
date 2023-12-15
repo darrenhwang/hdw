@@ -23,6 +23,7 @@ module HHW {
         egret_highlight,
         consoleIns,
         addItem,
+        setUsrLvl,
         updateTestQequest,
         addRobot,
         addRobotToRb,

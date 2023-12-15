@@ -153,12 +153,12 @@ var HHW;
     function dateFormat(date, fmt) {
         if (fmt === void 0) { fmt = 'yyyy-MM-dd hh:mm:ss'; }
         var o = {
-            "M+": date.getMonth() + 1,
-            "d+": date.getDate(),
-            "h+": date.getHours(),
-            "m+": date.getMinutes(),
-            "s+": date.getSeconds(),
-            "q+": Math.floor((date.getMonth() + 3) / 3),
+            "M+": date.getMonth() + 1, //月份
+            "d+": date.getDate(), //日
+            "h+": date.getHours(), //小时
+            "m+": date.getMinutes(), //分
+            "s+": date.getSeconds(), //秒
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度
             "S": date.getMilliseconds() //毫秒
         };
         if (/(y+)/.test(fmt))
@@ -487,6 +487,7 @@ var HHW;
         "c_item_map": {},
         "c_act": {},
     };
+    var request;
     function getCfgMap() {
         var _loop_2 = function (key) {
             if (["c_item_map"].indexOf(key) > -1) {
@@ -503,24 +504,97 @@ var HHW;
                 });
             }
             else if (!HHW.cfgMap[key].length) {
-                var is_item_1 = key == "c_item";
-                mo.D.each(key, function (temp, id) {
-                    if (temp.id > 0) {
-                        if (is_item_1) {
-                            HHW.cfgMap["c_item_map"][temp.id] = temp.name;
+                // const is_item = key == "c_item";
+                // mo.D.each(key, function (temp, id) {
+                //     if (temp.id > 0) {
+                //         if (is_item) {
+                //             cfgMap["c_item_map"][temp.id] = temp.name;
+                //         }
+                //         let list = [temp.id, temp.name];
+                //         cfgMap[key].push(list);
+                //     }
+                // })
+                if (!request) {
+                    team = window.location.href.match(/team\d+|/)[0];
+                    url = (team == "" ? "" : team + "/") + "resource/zh/data/g-data.json";
+                    request = new egret.HttpRequest();
+                    request.addEventListener(egret.Event.COMPLETE, function () {
+                        var cfg = parseCfg(JSON.parse(request.response));
+                        var c_item = cfg["c_item"];
+                        var nameKey = c_item.colMap.name;
+                        var value = c_item.list[0].v;
+                        var itemList = [];
+                        console.log("cfg", cfg);
+                        for (var i in value) {
+                            itemList.push([+i, value[i][nameKey]]);
                         }
-                        var list = [temp.id, temp.name];
-                        HHW.cfgMap[key].push(list);
-                    }
-                });
+                        HHW.cfgMap["c_item"] = itemList;
+                        HHW.sendData("init_data" /* CONST.EVENT.init_data */, itemList);
+                        request = null;
+                    }, null);
+                    request.open(url);
+                    request.send();
+                }
             }
         };
+        var team, url;
         for (var key in HHW.cfgMap) {
             _loop_2(key);
         }
         return HHW.cfgMap;
     }
     HHW.getCfgMap = getCfgMap;
+    function parseCfg(a) { var e = {}, l = {}; if (a) {
+        var n = a._;
+        delete a._;
+        var t = null;
+        for (var f in n && n instanceof Array && n.length && (t = mo.STR.genUk("cfg", !0), l[t] = n), a) {
+            var i = a[f];
+            if (i) {
+                var o = i.a;
+                o && (f = mo.CRYPTO.deCharCode("[" + f + "]", o));
+                var v = e[f] = e[f] || { a: o, list: [] };
+                t && (v.b = t), i.f && (v.f = 1);
+                for (var c = ["c", "d", "m"], g = 0; g < c.length; g++) {
+                    var s = c[g], h = i[s];
+                    if (h) {
+                        if (o)
+                            try {
+                                h = JSON.parse(mo.CRYPTO.deCharCode("[" + h + "]", o));
+                            }
+                            catch (r) { }
+                        v[s] = h;
+                    }
+                }
+                v.m ? v.colMap = v.m : v.colMap || (v.colMap = i.colMap), delete v.m;
+                var p = v.colMap || {}, d = v.e = {};
+                for (var C in p)
+                    if ("$" != C) {
+                        var m = p[C];
+                        d[m] = u(f + "#" + m, 2);
+                    }
+                var T = i.list;
+                if (T)
+                    for (g = 0; g < T.length; g++) {
+                        var O = T[g];
+                        if (!mo.OBJ.isEmpty(O)) {
+                            if (o)
+                                for (var S = ["d"], $ = 0; $ < S.length; $++) {
+                                    var y = S[$];
+                                    if (O[y])
+                                        try {
+                                            O[y] = JSON.parse(mo.CRYPTO.deCharCode("[" + O[y] + "]", o));
+                                        }
+                                        catch (r) { }
+                                }
+                            v.list.push(O);
+                        }
+                    }
+            }
+        }
+    } function u(r, a) { for (var n = 0, e = 0; e < r.length; e++) {
+        n += r.charCodeAt(e);
+    } return a && (n %= Math.pow(10, Math.min(a, 5))), n; } return e; }
 })(HHW || (HHW = {}));
 var HHW;
 (function (HHW) {
@@ -651,6 +725,52 @@ var HHW;
         });
     }
     HHW.addItem = addItem;
+    function setUsrLvl(args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var targetLvl_1, curLvl_1, lvlExp_1, num_1, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        targetLvl_1 = args.lvl;
+                        if (targetLvl_1 > G.D.m_c_lvl().$max) {
+                            targetLvl_1 = G.D.m_c_lvl().$max;
+                        }
+                        curLvl_1 = G.usrCtrl.lvl;
+                        lvlExp_1 = G.usrCtrl.lvlExp;
+                        num_1 = NaN;
+                        if (curLvl_1 < targetLvl_1) {
+                            mo.D.beginEach("c_lvl", curLvl_1, function (temp) {
+                                if (temp.id == curLvl_1) {
+                                    num_1 = temp.exp - lvlExp_1;
+                                }
+                                else if (temp.id == targetLvl_1) {
+                                    return true;
+                                }
+                                else {
+                                    num_1 = num_1 + temp.exp;
+                                }
+                            });
+                        }
+                        if (isNaN(num_1)) {
+                            HHW.sendMessToDevTool('执行发生异常', 1 /* CONST.MESS_TYPE.err */);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, HHW.request_mo2('gs.index.testCmd', { 'content': "item add 2 ".concat(num_1) })];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_2 = _a.sent();
+                        console.error(e_2);
+                        HHW.sendMessToDevTool('执行发生异常', 1 /* CONST.MESS_TYPE.err */);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    }
+    HHW.setUsrLvl = setUsrLvl;
     function getTeamCfg() {
         HHW.reqHHW('test', 'getTeamCfg', null, function (rst) {
             HHW.teamCfgList = rst;
@@ -1375,6 +1495,7 @@ var HHW;
         egret_highlight: HHW.egret_highlight,
         consoleIns: HHW.consoleIns,
         addItem: HHW.addItem,
+        setUsrLvl: HHW.setUsrLvl,
         updateTestQequest: HHW.updateTestQequest,
         addRobot: HHW.addRobot,
         addRobotToRb: HHW.addRobotToRb,

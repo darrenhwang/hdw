@@ -117,12 +117,12 @@ var HHW;
     function dateFormat(date, fmt) {
         if (fmt === void 0) { fmt = 'yyyy-MM-dd hh:mm:ss'; }
         var o = {
-            "M+": date.getMonth() + 1,
-            "d+": date.getDate(),
-            "h+": date.getHours(),
-            "m+": date.getMinutes(),
-            "s+": date.getSeconds(),
-            "q+": Math.floor((date.getMonth() + 3) / 3),
+            "M+": date.getMonth() + 1, //月份
+            "d+": date.getDate(), //日
+            "h+": date.getHours(), //小时
+            "m+": date.getMinutes(), //分
+            "s+": date.getSeconds(), //秒
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度
             "S": date.getMilliseconds() //毫秒
         };
         if (/(y+)/.test(fmt))
@@ -1222,7 +1222,13 @@ var HHW;
                 var procedure_list = HHW.ref([]);
                 var item_select_list = HHW.ref([]);
                 var c_item_list = HHW.ref([]);
+                Object.defineProperty(c_item_list, "value", {
+                    get: function () {
+                        return HHW.cfgMap.c_item;
+                    }
+                });
                 var item_num = HHW.ref(0);
+                var usr_lvl = HHW.ref(100);
                 var testRequest_list = HHW.reactive([]);
                 var iface_name = HHW.ref('');
                 var args = HHW.reactive([]);
@@ -1290,7 +1296,7 @@ var HHW;
                     });
                 }
                 function initData() {
-                    c_item_list.value = HHW.cfgMap.c_item;
+                    // c_item_list.value = HHW.cfgMap.c_item;
                 }
                 function initProcedureList() {
                     HHW.eval2('HHW.procedureList', function (rst) {
@@ -1320,6 +1326,14 @@ var HHW;
                     }
                     else {
                         HHW.eval('addItem', { list: item_select_list.value, num: item_num.value });
+                    }
+                }
+                function setUsrLvl() {
+                    if (!usr_lvl.value) {
+                        HHW.showWarn('请填写等级');
+                    }
+                    else {
+                        HHW.eval('setUsrLvl', { lvl: usr_lvl.value });
                     }
                 }
                 function addOne() {
@@ -1375,6 +1389,8 @@ var HHW;
                     c_item_list: c_item_list,
                     item_num: item_num,
                     addItem: addItem,
+                    usr_lvl: usr_lvl,
+                    setUsrLvl: setUsrLvl,
                     changeIfaceName: changeIfaceName,
                     testRequest_list: testRequest_list,
                     updateTestQequest: updateTestQequest,
@@ -1388,7 +1404,7 @@ var HHW;
                     exec_times: exec_times,
                 };
             },
-            template: "\n<div>\n    <div v-if=\"personalMess\">\n        <div>\n            <el-descriptions title=\"\" :column=\"1\" border style=\"width: 220px\">\n              <el-descriptions-item label=\"\u91D1\u5E01\">{{ usrData.gld }}</el-descriptions-item>\n              <el-descriptions-item label=\"\u94BB\u77F3\">{{ usrData.dmd }}</el-descriptions-item>\n            </el-descriptions>\n            <p class=\"center_font3\">{{ personalMess }}</p>\n            <p class=\"center_font2\" style=\"margin-left: 50px\">\u5B58\u50A8\u5668\u6267\u884C:</p>\n            <el-select style=\"width: 200px; margin-top: -10px\" v-model=\"procedure_name\" filterable allow-create>\n                <el-option v-for=\"item in procedure_list\" :key=\"item.name\" :label=\"item.ext + '(' + item.name + ')'\" :value=\"item.name\"></el-option>\n            </el-select>\n            <el-button style=\"margin-left: 15px; margin-top: -10px\" type=\"success\" @click=\"callP(procedure_name)\">\u6267\u884C</el-button>\n<!--            <p class=\"center_font2\" style=\"margin-left: 50px\">\u5FEB\u901F\u8C03\u8BD5:</p>-->\n<!--            <hhw-edit-input v-model:value=\"quick_name\" height=\"25px\" lineHeight=\"10px\" width=\"180px\" style=\"margin-left: 10px;\"></hhw-edit-input>-->\n<!--            <el-button style=\"margin-left: 15px; margin-top: -7px\" type=\"success\" size=\"small\" @click=\"callQ(quick_name)\">\u6267\u884C</el-button>-->\n        </div>\n        <el-tabs v-model=\"activeName\" tab-position=\"left\" style=\"margin-top: 20px; border-radius: 4px; min-height: 200px; background-color: white\">\n            <el-tab-pane label=\"\u9053\u5177\u6DFB\u52A0\" name=\"item\">\n                <div style=\"margin-left: 10px\">\n                    <div style=\"padding-left: 10px;\">\n                        <br><br>\n                        <hhw-load-select v-model=\"item_select_list\" :options=\"c_item_list\" title=\"\u8BF7\u9009\u62E9\u8981\u9053\u5177\" style=\"width: 500px\"></hhw-load-select>\n                        <el-input-number style=\"display: block; margin-top: 10px;\" v-model=\"item_num\" :min=\"-9999999999\" :max=\"9999999999\"/>\n                    </div>\n                    <el-button style=\"margin: 10px 10px\" type=\"primary\" @click=\"addItem\">\u6DFB\u52A0\u9053\u5177</el-button>\n                </div>                                         \n            </el-tab-pane>\n            <el-tab-pane label=\"\u63A5\u53E3\u8C03\u8BD5\" name=\"interface\">\n                <div style=\"margin-left: 10px\">\n                    <br><br>\n                    <el-select style=\"width: 300px;\" v-model=\"iface_name\" placeholder=\"\u8BF7\u586B\u5199\u63A5\u53E3\u540D\" filterable allow-create @change=\"changeIfaceName\">\n                        <el-option v-for=\"item in testRequest_list\" :key=\"item.name\" :label=\"'(' + item.name + ')' +item.ext\" :value=\"item.name\"></el-option>\n                    </el-select>\n                    <br><br>\n                    <el-input type=\"textarea\" :rows=\"2\" placeholder=\"\u63A5\u53E3\u8BF7\u6C42\u6CE8\u91CA\u5185\u5BB9\" v-model=\"note\"></el-input>\n                    <br><br>\n                    <el-button type=\"primary\" @click=\"addOne\">\u6DFB\u52A0\u53C2\u6570</el-button>\n                    <el-button style=\"margin-left: 10px\" type=\"success\" @click=\"updateTestQequest\">\u8BF7\u6C42\u63A5\u53E3</el-button>\n                    <br><br>\n                    \u5355\u6B21\u8BF7\u6C42\u63A5\u53E3\u6B21\u6570<el-input v-model=\"once_times\" style=\"width: 120px\"></el-input>\n                    \u8FDE\u7EED\u8BF7\u6C42\u6B21\u6570<el-input v-model=\"exec_times\" style=\"width: 120px\"></el-input>\n                    \u8FDE\u7EED\u8BF7\u6C42\u95F4\u9694\uFF08\u6BEB\u79D2\uFF09<el-input v-model=\"interval_time\" style=\"width: 120px\"></el-input>\n                    <hr><br>\n                    <div style=\"margin-bottom: 15px\" v-for=\"(item, idx) in args\" :key=\"idx\">\n                        <el-input style=\"width: 100px\" v-model=\"item[0]\" placeholder=\"\u53C2\u6570\u540D\"></el-input>\n                        <el-input style=\"width: 200px; margin-left: 10px; margin-right: 10px\" v-model=\"item[1]\" placeholder=\"\u53C2\u6570\u503C\"></el-input> \n                        <el-button type=\"danger\" @click=\"delOne(idx)\" >\u5220\u9664</el-button>     \n                    </div>\n                </div>\n            </el-tab-pane>                      \n        </el-tabs>\n    </div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>            \n            ",
+            template: "\n<div>\n    <div v-if=\"personalMess\">\n        <div>\n            <el-descriptions title=\"\" :column=\"1\" border style=\"width: 220px\">\n              <el-descriptions-item label=\"\u91D1\u5E01\">{{ usrData.gld }}</el-descriptions-item>\n              <el-descriptions-item label=\"\u94BB\u77F3\">{{ usrData.dmd }}</el-descriptions-item>\n            </el-descriptions>\n            <p class=\"center_font3\">{{ personalMess }}</p>\n            <p class=\"center_font2\" style=\"margin-left: 50px\">\u5B58\u50A8\u5668\u6267\u884C:</p>\n            <el-select style=\"width: 200px; margin-top: -10px\" v-model=\"procedure_name\" filterable allow-create>\n                <el-option v-for=\"item in procedure_list\" :key=\"item.name\" :label=\"item.ext + '(' + item.name + ')'\" :value=\"item.name\"></el-option>\n            </el-select>\n            <el-button style=\"margin-left: 15px; margin-top: -10px\" type=\"success\" @click=\"callP(procedure_name)\">\u6267\u884C</el-button>\n<!--            <p class=\"center_font2\" style=\"margin-left: 50px\">\u5FEB\u901F\u8C03\u8BD5:</p>-->\n<!--            <hhw-edit-input v-model:value=\"quick_name\" height=\"25px\" lineHeight=\"10px\" width=\"180px\" style=\"margin-left: 10px;\"></hhw-edit-input>-->\n<!--            <el-button style=\"margin-left: 15px; margin-top: -7px\" type=\"success\" size=\"small\" @click=\"callQ(quick_name)\">\u6267\u884C</el-button>-->\n        </div>\n        <el-tabs v-model=\"activeName\" tab-position=\"left\" style=\"margin-top: 20px; border-radius: 4px; min-height: 200px; background-color: white\">\n            <el-tab-pane label=\"\u9053\u5177\u6DFB\u52A0\" name=\"item\">\n                <div style=\"margin-left: 10px\">\n                    <div style=\"padding-left: 10px;\">\n                        <br><br>\n                        <hhw-load-select v-model=\"item_select_list\" :options=\"c_item_list\" title=\"\u8BF7\u9009\u62E9\u8981\u9053\u5177\" style=\"width: 500px\"></hhw-load-select>\n                        <el-input-number style=\"display: block; margin-top: 10px;\" v-model=\"item_num\" :min=\"-9999999999\" :max=\"9999999999\"/>\n                    </div>\n                    <el-button style=\"margin: 10px 10px\" type=\"primary\" @click=\"addItem\">\u6DFB\u52A0\u9053\u5177</el-button>\n                </div>                                         \n            </el-tab-pane>\n            <el-tab-pane label=\"\u8BBE\u7F6E\u7B49\u7EA7\" name=\"lvl\">\n            <div style=\"margin-left: 10px\">\n                <div style=\"padding-left: 10px;\">\n                    <br><br>\n                    <el-input v-model=\"usr_lvl\" style=\"width: 120px\"></el-input>\n                </div>\n                <el-button style=\"margin: 10px 10px\" type=\"primary\" @click=\"setUsrLvl\">\u8BBE\u7F6E</el-button>\n            </div>                                         \n        </el-tab-pane>\n            <el-tab-pane label=\"\u63A5\u53E3\u8C03\u8BD5\" name=\"interface\">\n                <div style=\"margin-left: 10px\">\n                    <br><br>\n                    <el-select style=\"width: 300px;\" v-model=\"iface_name\" placeholder=\"\u8BF7\u586B\u5199\u63A5\u53E3\u540D\" filterable allow-create @change=\"changeIfaceName\">\n                        <el-option v-for=\"item in testRequest_list\" :key=\"item.name\" :label=\"'(' + item.name + ')' +item.ext\" :value=\"item.name\"></el-option>\n                    </el-select>\n                    <br><br>\n                    <el-input type=\"textarea\" :rows=\"2\" placeholder=\"\u63A5\u53E3\u8BF7\u6C42\u6CE8\u91CA\u5185\u5BB9\" v-model=\"note\"></el-input>\n                    <br><br>\n                    <el-button type=\"primary\" @click=\"addOne\">\u6DFB\u52A0\u53C2\u6570</el-button>\n                    <el-button style=\"margin-left: 10px\" type=\"success\" @click=\"updateTestQequest\">\u8BF7\u6C42\u63A5\u53E3</el-button>\n                    <br><br>\n                    \u5355\u6B21\u8BF7\u6C42\u63A5\u53E3\u6B21\u6570<el-input v-model=\"once_times\" style=\"width: 120px\"></el-input>\n                    \u8FDE\u7EED\u8BF7\u6C42\u6B21\u6570<el-input v-model=\"exec_times\" style=\"width: 120px\"></el-input>\n                    \u8FDE\u7EED\u8BF7\u6C42\u95F4\u9694\uFF08\u6BEB\u79D2\uFF09<el-input v-model=\"interval_time\" style=\"width: 120px\"></el-input>\n                    <hr><br>\n                    <div style=\"margin-bottom: 15px\" v-for=\"(item, idx) in args\" :key=\"idx\">\n                        <el-input style=\"width: 100px\" v-model=\"item[0]\" placeholder=\"\u53C2\u6570\u540D\"></el-input>\n                        <el-input style=\"width: 200px; margin-left: 10px; margin-right: 10px\" v-model=\"item[1]\" placeholder=\"\u53C2\u6570\u503C\"></el-input> \n                        <el-button type=\"danger\" @click=\"delOne(idx)\" >\u5220\u9664</el-button>     \n                    </div>\n                </div>\n            </el-tab-pane>                      \n        </el-tabs>\n    </div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>            \n            ",
         };
     }
     HHW.router_center_usrInfo = router_center_usrInfo;
@@ -1689,15 +1705,15 @@ var HHW;
                 return {
                     treeNodeClick: treeNodeClick,
                     hhw_tree: hhw_tree,
-                    debug_highlight_title: debug_highlight_title,
+                    debug_highlight_title: debug_highlight_title, //title
                     debug_highlight_color: debug_highlight_color,
                     debug_listen_title: debug_listen_title,
                     debug_listen_color: debug_listen_color,
-                    switchHighlight: switchHighlight,
-                    switchListen: switchListen,
+                    switchHighlight: switchHighlight, //改变状态
+                    switchListen: switchListen, //改变是否监听树变化
                     egret_scene: egret_scene,
-                    treeNodeRecord: treeNodeRecord,
-                    treeNodeExpand: treeNodeExpand,
+                    treeNodeRecord: treeNodeRecord, //记录节点
+                    treeNodeExpand: treeNodeExpand, //树节点展开
                     treeDataUpdate: treeDataUpdate,
                     hhw_tree_data: hhw_tree_data,
                     visibleChange: visibleChange,

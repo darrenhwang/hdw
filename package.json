@@ -7,7 +7,9 @@
     "tsc_content_script": "tsc -p ./client/content-script/tsconfig.json -watch",
     "tsc_inject": "tsc -p ./client/inject/tsconfig.json -watch",
     "tsc_dev_tool": "tsc -p ./client/devTool/tsconfig.json -watch",
-    "tsc": "concurrently \"npm run tsc_content_script\" \"npm run tsc_inject\" \"npm run tsc_dev_tool\""
+    "tsc": "concurrently \"npm run tsc_content_script\" \"npm run tsc_inject\" \"npm run tsc_dev_tool\"",
+    "client": "tsc -p ./client/devTool/tsconfig.json",
+    "tools": "tsc -p ./client/inject/tsconfig.json"
   },
   "author": "",
   "license": "ISC",

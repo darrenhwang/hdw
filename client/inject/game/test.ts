@@ -113,6 +113,37 @@ module HHW {
         }
     }
 
+    export async function setUsrLvl(args) {
+        try {
+            let targetLvl = args.lvl;
+            if (targetLvl > G.D.m_c_lvl().$max) {
+                targetLvl = G.D.m_c_lvl().$max;
+            }
+            let curLvl = G.usrCtrl.lvl;
+            let lvlExp = G.usrCtrl.lvlExp;
+            let num = NaN;
+            if (curLvl < targetLvl) {
+                mo.D.beginEach("c_lvl", curLvl, temp => {
+                    if (temp.id == curLvl) {
+                        num = temp.exp - lvlExp;
+                    } else if (temp.id == targetLvl) {
+                        return true;
+                    } else {
+                        num = num + temp.exp;
+                    }
+                });
+            }
+            if (isNaN(num)) {
+                sendMessToDevTool('执行发生异常', CONST.MESS_TYPE.err);
+                return;
+            }
+            await request_mo2('gs.index.testCmd', {'content': `item add 2 ${num}`});
+        } catch (e) {
+           console.error(e);
+           sendMessToDevTool('执行发生异常', CONST.MESS_TYPE.err);
+        }
+    }
+
     export function getTeamCfg() {
         reqHHW('test', 'getTeamCfg', null, (rst) => {
             teamCfgList = rst;

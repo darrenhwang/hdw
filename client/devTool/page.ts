@@ -190,7 +190,13 @@ module HHW {
 
                 let item_select_list = ref([]);
                 let c_item_list = ref([]);
+                Object.defineProperty(c_item_list, "value", {
+                    get: function () {
+                       return HHW.cfgMap.c_item;
+                    }
+                });
                 let item_num = ref(0);
+                let usr_lvl = ref(100);
 
                 let testRequest_list = reactive([]);
                 let iface_name = ref('');
@@ -259,7 +265,7 @@ module HHW {
                 }
 
                 function initData() {
-                    c_item_list.value = cfgMap.c_item;
+                    // c_item_list.value = HHW.cfgMap.c_item;
                 }
 
                 function initProcedureList() {
@@ -291,6 +297,14 @@ module HHW {
                         showWarn('请选择物品');
                     } else {
                         eval('addItem', {list: item_select_list.value, num: item_num.value})
+                    }
+                }
+
+                function setUsrLvl() {
+                    if (!usr_lvl.value) {
+                        showWarn('请填写等级');
+                    }else {
+                        eval('setUsrLvl', {lvl: usr_lvl.value})
                     }
                 }
 
@@ -349,6 +363,8 @@ module HHW {
                     c_item_list,
                     item_num,
                     addItem,
+                    usr_lvl,
+                    setUsrLvl,
 
                     changeIfaceName,
                     testRequest_list,
@@ -393,6 +409,15 @@ module HHW {
                     <el-button style="margin: 10px 10px" type="primary" @click="addItem">添加道具</el-button>
                 </div>                                         
             </el-tab-pane>
+            <el-tab-pane label="设置等级" name="lvl">
+            <div style="margin-left: 10px">
+                <div style="padding-left: 10px;">
+                    <br><br>
+                    <el-input v-model="usr_lvl" style="width: 120px"></el-input>
+                </div>
+                <el-button style="margin: 10px 10px" type="primary" @click="setUsrLvl">设置</el-button>
+            </div>                                         
+        </el-tab-pane>
             <el-tab-pane label="接口调试" name="interface">
                 <div style="margin-left: 10px">
                     <br><br>
