@@ -2,6 +2,7 @@
 /// <reference path="./test.ts" />
 /// <reference path="./robot.ts" />
 /// <reference path="./act.ts" />
+/// <reference path="./operationPanel.ts" />
 module HHW {
     export let teamX = '';
     export let appList = [];

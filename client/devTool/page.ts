@@ -1006,6 +1006,16 @@ module HHW {
                     dialogVisible.value = true;
                 }
 
+                // 巅峰赛一键报名
+                function oneKeySignUp() {
+                    dialogArgs.value = [
+                        ['batchId', '活动批次'],
+                    ]
+                    dialogRules.value = [['batchId']];
+                    dialogExt.value = {handler: 'oneKeySignUp'};
+                    dialogVisible.value = true;
+                }
+
 
                 return {
                     dialogArgs,
@@ -1023,7 +1033,8 @@ module HHW {
                     peakFix,
                     oneKeyJoinFml,
                     oneKeyFight,
-                    gbFix
+                    gbFix,
+                    oneKeySignUp
                 }
             },
             template: `
@@ -1033,6 +1044,7 @@ module HHW {
         <hhw-button :active="true" type="3" @click="addRobot" name="添加机器人"></hhw-button>
         <hhw-button :active="true" type="4" @click="addRobotToRb" name="参加排位赛机器人"></hhw-button>
         <hhw-button :active="true" type="11" @click="addRobotToPeak" name="参加巅峰赛机器人"></hhw-button>
+        <hhw-button :active="true" type="11" @click="oneKeySignUp" name="本服巅峰赛一键报名"></hhw-button>
         <hhw-button :active="true" type="8" @click="fixPeak" name="巅峰赛活动快速操作"></hhw-button>
         <hhw-button :active="true" type="8" @click="peakFix" name="巅峰赛补操作"></hhw-button>
         <hhw-button :active="true" type="8" @click="oneKeyJoinFml" name="公会战一键加入公会"></hhw-button>
@@ -1346,6 +1358,113 @@ module HHW {
         <div v-for="(list,idx1) in info.cfgList" :key="idx1" class="hhwUrl" @click="openNewWindow(list[1],list[2])">{{ list[0] }}</div> 
    </el-card>
 </div>            
+            `,
+        }
+    }
+
+    export function router_center_operationPanel() {
+        return {
+            setup(props, ctx) {
+                let id = ref(0);
+                let dialogArgs = ref(null);
+                let dialogRules = ref(null);
+                let dialogExt = ref(null);
+                let dialogVisible = ref(false);
+
+                onMounted(() => {
+                    init();
+                });
+                onUnmounted(() => {
+                })
+
+                /**
+                 * 初始化数据
+                 */
+                function init() {
+                    if (proxy_data.id) {
+                        id.value = proxy_data.id;
+                    } else {
+                        id.value = 0;
+                    }
+                }
+
+                function oj8k(args) {
+                    if (args.extra_ext && args.extra_ext.handler) {
+                        eval(args.extra_ext.handler, args);
+                    }
+                    dialogVisible.value = false;
+                }
+                function cancel() { dialogVisible.value = false; }
+
+                /**
+                 * 修改玩家等级
+                 */
+                function updateUsrLevel() {
+                    dialogArgs.value = [['level', '目标等级']];
+                    dialogExt.value = {handler: 'updateUsrLevel'};
+                    dialogVisible.value = true;
+                }
+
+                return {
+                    // param
+                    id,
+                    dialogArgs,
+                    dialogRules,
+                    dialogExt,
+                    dialogVisible,
+
+                    // fun
+                    oj8k,
+                    cancel,
+                    updateUsrLevel
+                }
+            },
+            template: `
+<div>
+    <hhw-dialog v-model="dialogVisible" :args="dialogArgs" :rules="dialogRules" :ext="dialogExt" @oj8k="oj8k" @cancel="cancel"></hhw-dialog>
+    <div v-if="id">
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <el-button type="primary" plain @click="updateUsrLevel">修改玩家等级</el-button>
+            </el-col>
+            <el-col :span="6"><div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="6"><div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="6"><div class="grid-content bg-purple"></div>
+            </el-col>
+        </el-row>
+    </div>
+    <p v-else class="center_font2" style="color: aliceblue">请先进入游戏</p>
+</div>
+            `,
+        }
+    }
+
+    /**
+     * 模板参考，直接复制来用
+     */
+    export function template() {
+        return {
+            setup(props, ctx) {
+                let id = ref(0);
+                onMounted(() => {
+                    init();
+                });
+                onUnmounted(() => {
+                })
+                function init() {
+                    id.value = proxy_data.id || 0
+                }
+                return {
+                    id
+                }
+            },
+            template: `
+<div>
+    <div v-if="id"></div>
+    <p v-else class="center_font2" style="color: aliceblue">请先进入游戏</p>
+</div>
             `,
         }
     }

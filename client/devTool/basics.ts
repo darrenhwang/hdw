@@ -8,6 +8,10 @@ module CONST {
             path: CONST.MENU.usrInfo,
         },
         {
+            name: "操作面板",
+            path: CONST.MENU.operationPanel
+        },
+        {
             name: "游戏入口",
             path: CONST.MENU.teamCfg,
         },

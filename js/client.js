@@ -255,6 +255,10 @@ var CONST;
             path: "usrInfo" /* CONST.MENU.usrInfo */,
         },
         {
+            name: "操作面板",
+            path: "operationPanel" /* CONST.MENU.operationPanel */
+        },
+        {
             name: "游戏入口",
             path: "teamCfg" /* CONST.MENU.teamCfg */,
         },
@@ -1874,6 +1878,15 @@ var HHW;
                     dialogExt.value = { handler: 'gbFix' };
                     dialogVisible.value = true;
                 }
+                // 巅峰赛一键报名
+                function oneKeySignUp() {
+                    dialogArgs.value = [
+                        ['batchId', '活动批次'],
+                    ];
+                    dialogRules.value = [['batchId']];
+                    dialogExt.value = { handler: 'oneKeySignUp' };
+                    dialogVisible.value = true;
+                }
                 return {
                     dialogArgs: dialogArgs,
                     dialogRules: dialogRules,
@@ -1889,10 +1902,11 @@ var HHW;
                     peakFix: peakFix,
                     oneKeyJoinFml: oneKeyJoinFml,
                     oneKeyFight: oneKeyFight,
-                    gbFix: gbFix
+                    gbFix: gbFix,
+                    oneKeySignUp: oneKeySignUp
                 };
             },
-            template: "\n<div>\n    <hhw-dialog v-model=\"dialogVisible\" :args=\"dialogArgs\" :rules=\"dialogRules\" :ext=\"dialogExt\" @oj8k=\"oj8k\" @cancel=\"cancel\"></hhw-dialog>\n    <div v-if=\"id\">\n        <hhw-button :active=\"true\" type=\"3\" @click=\"addRobot\" name=\"\u6DFB\u52A0\u673A\u5668\u4EBA\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"4\" @click=\"addRobotToRb\" name=\"\u53C2\u52A0\u6392\u4F4D\u8D5B\u673A\u5668\u4EBA\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"11\" @click=\"addRobotToPeak\" name=\"\u53C2\u52A0\u5DC5\u5CF0\u8D5B\u673A\u5668\u4EBA\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"fixPeak\" name=\"\u5DC5\u5CF0\u8D5B\u6D3B\u52A8\u5FEB\u901F\u64CD\u4F5C\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"peakFix\" name=\"\u5DC5\u5CF0\u8D5B\u8865\u64CD\u4F5C\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"oneKeyJoinFml\" name=\"\u516C\u4F1A\u6218\u4E00\u952E\u52A0\u5165\u516C\u4F1A\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"oneKeyFight\" name=\"\u516C\u4F1A\u6218\u4E00\u952E\u6253boss\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"gbFix\" name=\"\u516C\u4F1A\u6218\u8865\u64CD\u4F5C\"></hhw-button>\n    </div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>            \n            ",
+            template: "\n<div>\n    <hhw-dialog v-model=\"dialogVisible\" :args=\"dialogArgs\" :rules=\"dialogRules\" :ext=\"dialogExt\" @oj8k=\"oj8k\" @cancel=\"cancel\"></hhw-dialog>\n    <div v-if=\"id\">\n        <hhw-button :active=\"true\" type=\"3\" @click=\"addRobot\" name=\"\u6DFB\u52A0\u673A\u5668\u4EBA\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"4\" @click=\"addRobotToRb\" name=\"\u53C2\u52A0\u6392\u4F4D\u8D5B\u673A\u5668\u4EBA\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"11\" @click=\"addRobotToPeak\" name=\"\u53C2\u52A0\u5DC5\u5CF0\u8D5B\u673A\u5668\u4EBA\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"11\" @click=\"oneKeySignUp\" name=\"\u672C\u670D\u5DC5\u5CF0\u8D5B\u4E00\u952E\u62A5\u540D\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"fixPeak\" name=\"\u5DC5\u5CF0\u8D5B\u6D3B\u52A8\u5FEB\u901F\u64CD\u4F5C\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"peakFix\" name=\"\u5DC5\u5CF0\u8D5B\u8865\u64CD\u4F5C\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"oneKeyJoinFml\" name=\"\u516C\u4F1A\u6218\u4E00\u952E\u52A0\u5165\u516C\u4F1A\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"oneKeyFight\" name=\"\u516C\u4F1A\u6218\u4E00\u952E\u6253boss\"></hhw-button>\n        <hhw-button :active=\"true\" type=\"8\" @click=\"gbFix\" name=\"\u516C\u4F1A\u6218\u8865\u64CD\u4F5C\"></hhw-button>\n    </div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>            \n            ",
         };
     }
     HHW.router_center_robot = router_center_robot;
@@ -2144,6 +2158,85 @@ var HHW;
         };
     }
     HHW.router_center_teamCfg = router_center_teamCfg;
+    function router_center_operationPanel() {
+        return {
+            setup: function (props, ctx) {
+                var id = HHW.ref(0);
+                var dialogArgs = HHW.ref(null);
+                var dialogRules = HHW.ref(null);
+                var dialogExt = HHW.ref(null);
+                var dialogVisible = HHW.ref(false);
+                HHW.onMounted(function () {
+                    init();
+                });
+                HHW.onUnmounted(function () {
+                });
+                /**
+                 * 初始化数据
+                 */
+                function init() {
+                    if (HHW.proxy_data.id) {
+                        id.value = HHW.proxy_data.id;
+                    }
+                    else {
+                        id.value = 0;
+                    }
+                }
+                function oj8k(args) {
+                    if (args.extra_ext && args.extra_ext.handler) {
+                        HHW.eval(args.extra_ext.handler, args);
+                    }
+                    dialogVisible.value = false;
+                }
+                function cancel() { dialogVisible.value = false; }
+                /**
+                 * 修改玩家等级
+                 */
+                function updateUsrLevel() {
+                    dialogArgs.value = [['level', '目标等级']];
+                    dialogExt.value = { handler: 'updateUsrLevel' };
+                    dialogVisible.value = true;
+                }
+                return {
+                    // param
+                    id: id,
+                    dialogArgs: dialogArgs,
+                    dialogRules: dialogRules,
+                    dialogExt: dialogExt,
+                    dialogVisible: dialogVisible,
+                    // fun
+                    oj8k: oj8k,
+                    cancel: cancel,
+                    updateUsrLevel: updateUsrLevel
+                };
+            },
+            template: "\n<div>\n    <hhw-dialog v-model=\"dialogVisible\" :args=\"dialogArgs\" :rules=\"dialogRules\" :ext=\"dialogExt\" @oj8k=\"oj8k\" @cancel=\"cancel\"></hhw-dialog>\n    <div v-if=\"id\">\n        <el-row :gutter=\"20\">\n            <el-col :span=\"6\">\n                <el-button type=\"primary\" plain @click=\"updateUsrLevel\">\u4FEE\u6539\u73A9\u5BB6\u7B49\u7EA7</el-button>\n            </el-col>\n            <el-col :span=\"6\"><div class=\"grid-content bg-purple\"></div>\n            </el-col>\n            <el-col :span=\"6\"><div class=\"grid-content bg-purple\"></div>\n            </el-col>\n            <el-col :span=\"6\"><div class=\"grid-content bg-purple\"></div>\n            </el-col>\n        </el-row>\n    </div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>\n            ",
+        };
+    }
+    HHW.router_center_operationPanel = router_center_operationPanel;
+    /**
+     * 模板参考，直接复制来用
+     */
+    function template() {
+        return {
+            setup: function (props, ctx) {
+                var id = HHW.ref(0);
+                HHW.onMounted(function () {
+                    init();
+                });
+                HHW.onUnmounted(function () {
+                });
+                function init() {
+                    id.value = HHW.proxy_data.id || 0;
+                }
+                return {
+                    id: id
+                };
+            },
+            template: "\n<div>\n    <div v-if=\"id\"></div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>\n            ",
+        };
+    }
+    HHW.template = template;
 })(HHW || (HHW = {}));
 /// <reference path="./page.ts" />
 var HHW;
@@ -2182,6 +2275,10 @@ var HHW;
                     path: "robot" /* CONST.MENU.robot */,
                     component: HHW.router_center_robot(),
                 },
+                {
+                    path: "operationPanel" /* CONST.MENU.operationPanel */,
+                    component: HHW.router_center_operationPanel()
+                }
             ],
         },
     ];

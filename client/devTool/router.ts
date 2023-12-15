@@ -33,6 +33,10 @@ module HHW {
                     path: CONST.MENU.robot,
                     component: router_center_robot(),
                 },
+                {
+                    path: CONST.MENU.operationPanel,
+                    component: router_center_operationPanel()
+                }
             ],
         },
 

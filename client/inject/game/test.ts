@@ -230,4 +230,25 @@ module HHW {
         }
     }
 
+    export function oneKeySignUp(args) {
+        if (!G.peakCtrl) {
+            sendMessToDevTool('巅峰赛不存在');
+        } else if (!G.peakCtrl.isExist()) {
+            sendMessToDevTool('巅峰赛活动不存在', CONST.MESS_TYPE.err);
+        } else {
+            if (!args || !args.step) {
+                sendMessToDevTool('请选择操作类型', CONST.MESS_TYPE.err);
+                return;
+            }
+            let sync = {
+                $ext: {
+                    batchId: G.peakCtrl.batchId
+                }
+            }
+            reqHHW('test', 'bst', {bst: bstSign('peak.oneKeySignUp', sync)}, (rst) => {
+
+            })
+        }
+    }
+
 }

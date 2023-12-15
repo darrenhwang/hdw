@@ -10,15 +10,16 @@ module HHW {
     export var database_pre: string;
     export var host: string;
 
+    // yumi: 编写调用 HHW 进程的接口方法
     const _functionMap = {
         output,
-        changeSwitch,
         changeTime,
+        restartApp,
         enter,
         reconnection,
         callProcedure,
         callQuick,
-        restartApp,
+        changeSwitch,
         egret_change,
         egret_highlight,
         consoleIns,
@@ -37,7 +38,11 @@ module HHW {
         peakFix,
         oneKeyJoinFml,
         oneKeyFight,
-        gbFix
+        gbFix,
+        oneKeySignUp,
+
+        // 2.0
+        updateUsrLevel // 修改玩家等级
     }
 
     export function inject_tool(key, arg) {

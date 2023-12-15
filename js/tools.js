@@ -768,6 +768,28 @@ var HHW;
         }
     }
     HHW.gbFix = gbFix;
+    function oneKeySignUp(args) {
+        if (!G.peakCtrl) {
+            HHW.sendMessToDevTool('巅峰赛不存在');
+        }
+        else if (!G.peakCtrl.isExist()) {
+            HHW.sendMessToDevTool('巅峰赛活动不存在', 1 /* CONST.MESS_TYPE.err */);
+        }
+        else {
+            if (!args || !args.step) {
+                HHW.sendMessToDevTool('请选择操作类型', 1 /* CONST.MESS_TYPE.err */);
+                return;
+            }
+            var sync = {
+                $ext: {
+                    batchId: G.peakCtrl.batchId
+                }
+            };
+            HHW.reqHHW('test', 'bst', { bst: HHW.bstSign('peak.oneKeySignUp', sync) }, function (rst) {
+            });
+        }
+    }
+    HHW.oneKeySignUp = oneKeySignUp;
 })(HHW || (HHW = {}));
 var HHW;
 (function (HHW) {
@@ -866,15 +888,38 @@ var HHW;
     }
     HHW.searchActInfo = searchActInfo;
 })(HHW || (HHW = {}));
+var HHW;
+(function (HHW) {
+    /**
+     * console.log 可能无法打印到控制台
+     * @param data
+     */
+    function updateUsrLevel(data) {
+        if (!data || !data.level || data.level <= 0) {
+            return HHW.sendMessToDevTool('等级不能为 0', 1 /* CONST.MESS_TYPE.err */);
+        }
+        var sql = "UPDATE g_usr SET lvl = ".concat(data.level);
+        HHW.reqHHW('iface2_0', 'execSql2GS', { sql: sql }, function (rst) {
+            // 重新登录刷新
+            HHW.enter(function () {
+                HHW.sendMessToDevTool('执行成功');
+                HHW.refresh();
+            });
+        });
+    }
+    HHW.updateUsrLevel = updateUsrLevel;
+})(HHW || (HHW = {}));
 /// <reference path="./cfg.ts" />
 /// <reference path="./test.ts" />
 /// <reference path="./robot.ts" />
 /// <reference path="./act.ts" />
+/// <reference path="./operationPanel.ts" />
 var HHW;
 /// <reference path="./cfg.ts" />
 /// <reference path="./test.ts" />
 /// <reference path="./robot.ts" />
 /// <reference path="./act.ts" />
+/// <reference path="./operationPanel.ts" />
 (function (HHW) {
     HHW.teamX = '';
     HHW.appList = [];
@@ -1362,15 +1407,16 @@ var HHW;
 /// <reference path="./game/basics.ts" />
 /// <reference path="./egret/index.ts" />
 (function (HHW) {
+    // yumi: 编写调用 HHW 进程的接口方法
     var _functionMap = {
         output: output,
-        changeSwitch: HHW.changeSwitch,
         changeTime: changeTime,
+        restartApp: restartApp,
         enter: HHW.enter,
         reconnection: HHW.reconnection,
         callProcedure: HHW.callProcedure,
         callQuick: HHW.callQuick,
-        restartApp: restartApp,
+        changeSwitch: HHW.changeSwitch,
         egret_change: HHW.egret_change,
         egret_highlight: HHW.egret_highlight,
         consoleIns: HHW.consoleIns,
@@ -1389,7 +1435,10 @@ var HHW;
         peakFix: HHW.peakFix,
         oneKeyJoinFml: HHW.oneKeyJoinFml,
         oneKeyFight: HHW.oneKeyFight,
-        gbFix: HHW.gbFix
+        gbFix: HHW.gbFix,
+        oneKeySignUp: HHW.oneKeySignUp,
+        // 2.0
+        updateUsrLevel: HHW.updateUsrLevel // 修改玩家等级
     };
     function inject_tool(key, arg) {
         if (!!_functionMap[key]) {
