@@ -14,8 +14,8 @@ module HHW {
         reqHHW('iface2_0', 'execSql2GS', {sql: sql}, (rst) => {
             // 重新登录刷新
             enter(() => {
-                sendMessToDevTool('执行成功');
                 refresh();
+                sendMessToDevTool('执行成功');
             })
         })
     }

@@ -902,8 +902,8 @@ var HHW;
         HHW.reqHHW('iface2_0', 'execSql2GS', { sql: sql }, function (rst) {
             // 重新登录刷新
             HHW.enter(function () {
-                HHW.sendMessToDevTool('执行成功');
                 HHW.refresh();
+                HHW.sendMessToDevTool('执行成功');
             });
         });
     }
