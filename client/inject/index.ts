@@ -10,7 +10,7 @@ module HHW {
     export var database_pre: string;
     export var host: string;
 
-    // yumi: 编写调用 HHW 进程的接口方法
+    // yumi: 调用 HHW 进程接口方法
     const _functionMap = {
         output,
         changeTime,

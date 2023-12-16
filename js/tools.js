@@ -1407,7 +1407,7 @@ var HHW;
 /// <reference path="./game/basics.ts" />
 /// <reference path="./egret/index.ts" />
 (function (HHW) {
-    // yumi: 编写调用 HHW 进程的接口方法
+    // yumi: 调用 HHW 进程接口方法
     var _functionMap = {
         output: output,
         changeTime: changeTime,
