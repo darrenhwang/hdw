@@ -9,7 +9,7 @@ module CONST {
         },
         {
             name: "操作面板",
-            path: CONST.MENU.operationPanel
+            path: CONST.MENU.panel2_0
         },
         {
             name: "游戏入口",

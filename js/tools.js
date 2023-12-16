@@ -913,13 +913,13 @@ var HHW;
 /// <reference path="./test.ts" />
 /// <reference path="./robot.ts" />
 /// <reference path="./act.ts" />
-/// <reference path="./operationPanel.ts" />
+/// <reference path="./panel2_0.ts" />
 var HHW;
 /// <reference path="./cfg.ts" />
 /// <reference path="./test.ts" />
 /// <reference path="./robot.ts" />
 /// <reference path="./act.ts" />
-/// <reference path="./operationPanel.ts" />
+/// <reference path="./panel2_0.ts" />
 (function (HHW) {
     HHW.teamX = '';
     HHW.appList = [];

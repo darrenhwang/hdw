@@ -1362,7 +1362,7 @@ module HHW {
         }
     }
 
-    export function router_center_operationPanel() {
+    export function router_center_panel2_0() {
         return {
             setup(props, ctx) {
                 let id = ref(0);
@@ -1372,9 +1372,11 @@ module HHW {
                 let dialogVisible = ref(false);
 
                 onMounted(() => {
+                    hMitt.on(CONST.EVENT.update_proxy_data, init);
                     init();
                 });
                 onUnmounted(() => {
+                    hMitt.off(CONST.EVENT.update_proxy_data, init);
                 })
 
                 /**

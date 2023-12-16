@@ -256,7 +256,7 @@ var CONST;
         },
         {
             name: "操作面板",
-            path: "operationPanel" /* CONST.MENU.operationPanel */
+            path: "panel2_0" /* CONST.MENU.panel2_0 */
         },
         {
             name: "游戏入口",
@@ -2158,7 +2158,7 @@ var HHW;
         };
     }
     HHW.router_center_teamCfg = router_center_teamCfg;
-    function router_center_operationPanel() {
+    function router_center_panel2_0() {
         return {
             setup: function (props, ctx) {
                 var id = HHW.ref(0);
@@ -2167,9 +2167,11 @@ var HHW;
                 var dialogExt = HHW.ref(null);
                 var dialogVisible = HHW.ref(false);
                 HHW.onMounted(function () {
+                    HHW.hMitt.on("update_proxy_data" /* CONST.EVENT.update_proxy_data */, init);
                     init();
                 });
                 HHW.onUnmounted(function () {
+                    HHW.hMitt.off("update_proxy_data" /* CONST.EVENT.update_proxy_data */, init);
                 });
                 /**
                  * 初始化数据
@@ -2213,7 +2215,7 @@ var HHW;
             template: "\n<div>\n    <hhw-dialog v-model=\"dialogVisible\" :args=\"dialogArgs\" :rules=\"dialogRules\" :ext=\"dialogExt\" @oj8k=\"oj8k\" @cancel=\"cancel\"></hhw-dialog>\n    <div v-if=\"id\">\n        <el-row :gutter=\"20\">\n            <el-col :span=\"6\">\n                <el-button type=\"primary\" plain @click=\"updateUsrLevel\">\u4FEE\u6539\u73A9\u5BB6\u7B49\u7EA7</el-button>\n            </el-col>\n            <el-col :span=\"6\"><div class=\"grid-content bg-purple\"></div>\n            </el-col>\n            <el-col :span=\"6\"><div class=\"grid-content bg-purple\"></div>\n            </el-col>\n            <el-col :span=\"6\"><div class=\"grid-content bg-purple\"></div>\n            </el-col>\n        </el-row>\n    </div>\n    <p v-else class=\"center_font2\" style=\"color: aliceblue\">\u8BF7\u5148\u8FDB\u5165\u6E38\u620F</p>\n</div>\n            ",
         };
     }
-    HHW.router_center_operationPanel = router_center_operationPanel;
+    HHW.router_center_panel2_0 = router_center_panel2_0;
     /**
      * 模板参考，直接复制来用
      */
@@ -2276,8 +2278,8 @@ var HHW;
                     component: HHW.router_center_robot(),
                 },
                 {
-                    path: "operationPanel" /* CONST.MENU.operationPanel */,
-                    component: HHW.router_center_operationPanel()
+                    path: "panel2_0" /* CONST.MENU.panel2_0 */,
+                    component: HHW.router_center_panel2_0()
                 }
             ],
         },

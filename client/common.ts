@@ -85,8 +85,8 @@ module CONST {
     export const enum MENU {
         /** 个人数据 */
         usrInfo = 'usrInfo',
-        /** 操作面板 */
-        operationPanel = 'operationPanel',
+        /** 操作面板 2.0 */
+        panel2_0 = 'panel2_0',
         /** 进程重启 */
         appList = 'appList',
         /** Egret */
