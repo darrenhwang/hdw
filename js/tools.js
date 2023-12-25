@@ -898,7 +898,7 @@ var HHW;
         if (!data || !data.level || data.level <= 0) {
             return HHW.sendMessToDevTool('等级不能为 0', 1 /* CONST.MESS_TYPE.err */);
         }
-        var sql = "UPDATE g_usr SET lvl = ".concat(data.level);
+        var sql = "UPDATE g_usr SET lvl = ".concat(data.level, " WHERE id = ").concat(data.extra_ext.uid);
         HHW.reqHHW('iface2_0', 'execSql2GS', { sql: sql }, function (rst) {
             // 重新登录刷新
             HHW.enter(function () {

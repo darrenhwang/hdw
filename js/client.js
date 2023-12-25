@@ -2196,7 +2196,7 @@ var HHW;
                  */
                 function updateUsrLevel() {
                     dialogArgs.value = [['level', '目标等级']];
-                    dialogExt.value = { handler: 'updateUsrLevel' };
+                    dialogExt.value = { handler: 'updateUsrLevel', uid: id };
                     dialogVisible.value = true;
                 }
                 return {
